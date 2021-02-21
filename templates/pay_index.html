@@ -1,0 +1,41 @@
+{% extends 'pay_base.html' %}
+
+{% block content %}
+
+
+<head>
+    <style>
+        .center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+
+<div class="center">
+
+    <form class="text-center border border-light p-5" action="{% url 'payment_success' pk %}" method="POST">
+        {% csrf_token %}
+
+        <p class="h3 mb-3"><i class="fa fa-calendar-o" aria-hidden="true"></i> REGISTER FOR THIS EVENT!!</p>
+
+        <!-- RAZORPAY INTEGRATION HERE -->
+        <script src="https://checkout.razorpay.com/v1/checkout.js" 
+        data-key="rzp_test_VDUrLjpkd8r5Ae" 
+        data-amount="5000"
+        data-currency="INR" 
+        data-order_id="{{payment.id}}" 
+        data-buttontext="Pay with Razorpay"
+        data-name="FESTICA"
+        data-description="College Fest Management"
+        data-prefill.name="PC"
+        data-theme.color="#0059ff"></script>
+
+    </form>
+
+</div>
+
+</div>
+{% endblock %}

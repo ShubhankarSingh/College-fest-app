@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+        #event-header .header-image{
+            height: 700px;
+            position: relative;
+            background-image: url('{% static "images/event_back.jpg" %}');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        .date-text { 
+            position: absolute; 
+            top: 35%; 
+            left: 13%;
+            font-size: 22px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+        } 
+  
+        .heading-text { 
+            position: absolute; 
+            top: 43%; 
+            left: 13%; 
+            font-size: 90px;
+            color:#F73CA1;
+            background: linear-gradient(228.54deg, #FFD541 36.26%, #F73CA1 96.73%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+        } 
+
+        #events a{
+            text-decoration: none;
+        }
+        #events{
+            margin: 15px 120px;
+        }
+        .event-image {
+            height: 300px;
+            width: 100%;
+        }
+        .event-content h5{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 23px;
+            font-weight: bolder;
+        }
+        .add-btn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 436px;
+            padding: 16px;
+            background-color:  #007bff;
+            color: rgb(255, 255, 255);
+        }
+        .add-btn:hover {
+            color: white;
+        }
+        .up-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .up-btn:hover {
+            color: rgb(0, 119, 255);
+        }
+        .del-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .del-btn:hover {
+            color: red;
+        }
+        .register-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 100%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .card-bg {
+            background-color: #f7f7f7;
+            border: none;
+        }
+        .text-color{
+            color: black;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            line-height: 1.75;
+        }
+        .is_online-text{
+            color: red;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            line-height: 1.75;
+            text-align: center;
+            margin-top: 15px;
+        }
+        /* body{
+            background-image: url('{% static "images/bg (1).jpg" %}');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+    
+        } */
+    </style>
+
+    <section id="event-header">
+        <div class="header-image">
+        </div>
+        <p class="date-text">16-18 March, 2021, Mysore, KA</p>
+        <h2 class="heading-text">Events</h2>
+    </section>
+    
+
+    <div id="events">
+        {% if user.is_superuser %}
+        <a href="{% url 'events:add_event' %}" class="add-btn">
+            <span><i class="fa fa-plus-circle" aria-hidden="true"></i> Add New Event</span>
+        </a>
+        {% endif %}
+        <div class="row">
+            {% for event in events %}
+            <div class="col-lg-4 mb-4 d-flex align-items-stretch">
+                <div class="card card-bg">
+                    <img src="{{event.image.url}}" alt="{{event.title}}" enctype="multipart/form-data" class="card-img-top event-image">
+                    <div class="card-body"> 
+                        <div class="event-content">
+                            <h5 class="card-title">{{event.title}}</h5>
+                            <p class="card-text text-color">{{event.description}}</p>
+                            <p class="card-text text-color">Time: {{event.time}}</p>
+                            {% if event.is_online == True %}
+                              <p class="card-text text-color">Link: {{event.meet_link}}</p>
+                            {% endif %}
+                            {% if event.is_online == True %}
+                            <p class="card-text is_online-text">This Event is Online</p>
+                            {% endif %}
+
+                            {% if user.is_superuser %}
+                            <a href="{% url 'events:update_event' slug=event.slug %}" class="up-btn">Update</a>
+                            <a href="{% url 'events:delete_event' slug=event.slug %}" class="del-btn">Delete</a>
+                            {% endif %}
+
+                            {% if user.is_superuser == False %}
+                            <a href="{% url 'events:register_event' pk=event.pk %}" class="register-btn">Register</a>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+{% endblock %}

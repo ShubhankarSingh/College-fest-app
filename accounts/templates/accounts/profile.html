@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    
+	.profile-pic{
+		width: 200px;
+		height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+	.profile-card{
+		height: 792px;
+		background-color: #919191;
+        border: none;
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		border-radius: 0%;
+	}
+
+	form .field-label{
+		font-family: 'Nunito Sans', sans-serif;
+		font-weight: bold;
+		margin-bottom: 8px;
+		color: white;
+	}
+	form input{
+		width: 100%;
+		padding: 5px 7px;
+		border: 2px solid #e8e7ec;
+		outline: none;
+		border-radius: 5px;
+		display: block;
+		margin-bottom: 0.5rem;
+	}
+	form .filedWrapper label{
+		color: white;
+	}
+	
+</style>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body profile-card">
+			<a class="btn btn-primary" href="{% url 'home' %}"> &#8592; Back to Home</a>
+			<br><br>
+			
+			<img class="profile-pic" src="{{request.user.profile.profile_pic.url}}" >
+
+			<br><br>
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				  <p class="field-label">Username</p>
+				  <p class="field-value">{{u_form.username}}</p>
+				  <p class="field-label">Email address</p>
+				  <p class="field-value">{{u_form.email}}</p>
+
+				  {% for field in p_form %}
+					{{ field.errors }}
+					<p class="field-label">Change Profile Picture</p>
+					<p class="field-value">{{ field }}</p>
+				  {% endfor %}
+				  
+				  
+			<input class="btn btn-primary" type="submit" name="Update Information">
+			</form>
+		</div>
+	</div>
+	<div class="col-md-9">
+		{%  include 'accounts/events_registered.html' %}
+		{%  include 'accounts/competition_registered.html' %}
+	</div>
+</div>
+
+{% endblock %}

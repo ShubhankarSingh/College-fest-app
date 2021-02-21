@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+
+<style>
+    #all{
+        margin: 20px;
+    }
+    .image {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+
+<div id="all">
+    <div class="row">
+        {% for object in all_events %}
+        <div class="col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card card-bg">
+                <img src="{{object.event.image.url}}" alt="{{object.event.title}}" enctype="multipart/form-data" class="card-img-top image">
+                
+                <div class="card-body">
+                    <div class="event-content">
+                        <h5 class="card-title">{{object.event.title}}</h5>
+                        <p class="card-text text-color">Time: {{object.event.time}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for object in all_competitions %}
+        <div class="col-lg-3 mb-4 d-flex align-items-stretch">
+            <div class="card card-bg">
+                <img src="{{object.competition.image.url}}" alt="{{object.competition.title}}" enctype="multipart/form-data" class="card-img-top image">
+                
+                <div class="card-body">    
+                    <div class="competition-content">
+                        <h5 class="card-title">{{object.competition.title}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

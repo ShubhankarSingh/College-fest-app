@@ -1,0 +1,39 @@
+{%  extends 'base.html' %}
+
+{% block content %}
+
+<style>
+	h5{
+		text-align: center;
+		margin: 25px 0px;
+		font-size: 30px;
+		color: red;
+	}
+	.table{
+		text-align: center;
+	}
+</style>
+
+<h5>Users</h5>
+<table class="table">
+	<thead class="thead-dark">
+	  <tr>
+		<th scope="col">Username</th>
+		<th scope="col">Email</th>
+		<th></th>
+	  </tr>
+	</thead>
+	<tbody>
+		{% for customer in customers %}
+		{% if customer.is_superuser == False %}
+		<tr>
+			<td>{{customer.username}}</td>
+			<td>{{customer.email}}</td>
+			<td><a class="btn btn-danger btn-sm" href="{% url 'accounts:user_details' pk=customer.id %}">View</a></td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</tbody>
+</table>
+
+{% endblock %}

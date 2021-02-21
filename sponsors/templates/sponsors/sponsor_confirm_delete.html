@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .container{
+        margin: 20px;
+    }
+    p{
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" value="Confirm Delete" class="btn btn-danger btn-sm">
+            <a href="{% url 'sponsors:sponsors_list' %}" class = 'btn btn-outline-secondary btn-sm'>Cancel</a>
+        </form>
+</div>
+
+{% endblock %}

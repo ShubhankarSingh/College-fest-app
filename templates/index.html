@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    
+    <style>
+
+        #app-navbar{
+            margin: 30px 150px;
+        }
+
+        #app-navbar .navbar .navbar-brand a{
+            font-size: 35px;
+            font-weight: bolder;
+            background: -webkit-linear-gradient(rgb(255, 0, 0), rgb(107, 107, 110));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .navbar{
+            background-color: transparent !important;
+            z-index: 900;
+        }
+
+        .bgimg{
+            height: 792px;
+            position: fixed;
+            top:0;
+            left:0;
+            position: absolute;
+            background-image: url('{% static "images/home.png" %}');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center top;
+        }
+    </style>
+
+{% endblock %}

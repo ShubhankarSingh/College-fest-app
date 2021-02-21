@@ -1,0 +1,46 @@
+<style>
+    .heading {
+        text-align: center;
+        margin: 20px 0px;
+        font-size: 22px;
+        font-weight: bold;
+        font-family: 'Nunito Sans', sans-serif;
+    }
+    .event-image {
+        height: 250px;
+        width: 100%;
+    }
+    .card-bg {
+        height: 360px;
+        width: 380px;
+        background-color: #f7f7f7;
+        border: none;
+    }
+    .text-color{
+        color: black;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 16px;
+    }
+    
+
+</style>
+
+<div class="heading">Registered events</div>
+<div id="events">
+    <div class="row">
+        {% for object in all_events %}
+        <div class="col-lg-4 mb-4 d-flex align-items-stretch">
+            <div class="card card-bg">
+                <img src="{{object.event.image.url}}" alt="{{object.event.title}}" enctype="multipart/form-data" class="card-img-top event-image">
+                
+                <div class="card-body">
+                    <div class="event-content">
+                        <h5 class="card-title">{{object.event.title}}</h5>
+                        <p class="card-text text-color">Time: {{object.event.time}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>

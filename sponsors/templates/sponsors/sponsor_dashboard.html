@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+
+        #sponsors a{
+            text-decoration: none;
+        }
+
+        .sponsor-image {
+            height: 220px;
+            width: 250px;
+            border-radius: 10%;
+            margin: 15px auto;
+        }
+        .sponsor-content h5{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 23px;
+            font-weight: bolder;
+        }
+        .add-btn{
+            padding: 17px 140px;
+            text-align: center;
+            background-color:  #007bff;
+            color: white;
+        }
+        .add-btn:hover{
+            color: white;
+        }
+        .up-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .up-btn:hover {
+            color: rgb(0, 119, 255);
+        }
+        .del-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .del-btn:hover {
+            color: red;
+        }
+        .card-title {
+            font-size: 22px;
+        }
+        .card-bg {
+            border: none;
+            height: 295px;
+            width: 300px;
+            border-radius: 7%;
+            background-color: #f7f7f7;
+            box-shadow: 0 0 10px 10px rgb(134, 134, 134);
+        }
+        .card-title{
+            text-align: center;
+        }
+        .sponsor-type {
+            font-family: 'Nunito Sans', sans-serif;
+            text-align: center;
+            margin: 15px 0px;
+        }
+        body{
+            background-color: rgb(238, 238, 238);
+        } 
+
+    </style>
+
+    <div id="sponsors">
+        {% if user.is_superuser %}
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4 mb-5 mt-4">
+                <a href="{% url 'sponsors:add_sponsor' %}" class="add-btn">
+                    <span><i class="fa fa-plus-circle" aria-hidden="true"></i> Add a Sponsor</span>
+                </a>
+            </div>
+            <div class="col-lg-4">
+            </div>
+           
+        </div>
+        {% endif %}
+        
+    <div class="container">
+      
+        <div class="row justify-content-center">
+            <div class="col-lg-12 sponsor-type"><h2>Marketing Sponsors</h2></div>
+            
+            {% for sponsor in sponsors %}
+            {% if sponsor.type.name == "Marketing Sponsors" %}
+                <div class="col-lg-4 mb-4 ">
+                    <div class="card card-bg">
+                        <img src="{{sponsor.image.url}}" alt="{{sponsor.name}}" enctype="multipart/form-data" class="card-img-top sponsor-image">
+                        <h5 class="card-title">{{sponsor.name}}</h5>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+            <div class="col-lg-12 sponsor-type"><h2>Media Sponsors</h2></div>
+            {% for sponsor in sponsors %}
+            {% if sponsor.type.name == "Media Sponsors" %}
+                <div class="col-lg-4 mb-4">
+                    <div class="card card-bg">
+                        <img src="{{sponsor.image.url}}" alt="{{sponsor.name}}" enctype="multipart/form-data" class="card-img-top sponsor-image">
+                        <h5 class="card-title">{{sponsor.name}}</h5>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</div>
+
+    
+{% endblock %}

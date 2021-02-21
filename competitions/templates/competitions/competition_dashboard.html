@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <style>
+        #competition-header{
+            height: 700px;
+            position: relative;
+            background-color: #29b6f6;
+        }
+        .header-image{
+            top: 13%;
+            left: 50%;
+            position: absolute;
+        }
+        .date-text { 
+            position: absolute; 
+            top: 30%; 
+            left: 10%;
+            font-size: 22px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+        } 
+  
+        .heading-text { 
+            position: absolute; 
+            top: 38%; 
+            left: 10%; 
+            font-size: 90px;
+            color:#F73CA1;
+            background: linear-gradient(228.54deg, #FFD541 36.26%, #F73CA1 96.73%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+        }
+
+        
+        .header-desc {
+            position: absolute; 
+            top: 56%; 
+            left: 10%; 
+            right: 50%;
+            font-size: 18px;
+            color: white;
+            text-align: justify;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        #competitions a{
+            text-decoration: none;
+        }
+        #competitions {
+            margin: 15px 120px;
+        }
+        .competition-image {
+            height: 300px;
+            width: 100%;
+        }
+        .competition-content h5{
+            font-family: 'Montserrat', sans-serif;
+            font-size: 23px;
+            font-weight: bolder;
+        }
+        .add-btn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 436px;
+            padding: 16px;
+            background-color:  #007bff;
+            color: rgb(255, 255, 255);
+        }
+        .add-btn:hover {
+            color: white;
+        }
+        .up-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .up-btn:hover {
+            color: rgb(0, 119, 255);
+        }
+        .del-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 50%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .del-btn:hover {
+            color: red;
+        }
+        .register-btn {
+            padding: 8px 17px;
+            color: rgb(0, 0, 0);
+            width: 100%;
+            border: 2px solid rgb(19, 19, 19);
+            font-family: 'Montserrat',sans-serif;
+            font-size: 14px;
+        }
+        .card-bg {
+            background-color: #f7f7f7;
+            border: none;
+        }
+        .text-color{
+            color: black;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            line-height: 1.75;
+        }
+        .seats-count{
+            text-align: center;
+            color: red;
+            font-size: 19px;
+        }
+        /* body{
+            background-image: url('{% static "images/bg (1).jpg" %}');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+    
+        } */
+    </style>
+
+    <section id="competition-header">
+        <p class="date-text">13-15 March, 2021, Mysore, KA</p>
+        <h2 class="heading-text">Competitions</h2>
+        <div class="header-image">
+            <img src="{% static 'images/trophy2.webp' %}" alt="" style="height: 620px;width: 730px;">
+        </div>
+        <p class="header-desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos perspiciatis nemo tenetur nam asperiores deserunt tempora accusantium? Architecto maiores expedita, corporis delectus consequatur, dolorem quaerat qui vitae porro eius, adipisci commodi. Aliquid similique quo consequuntur.</p>
+    </section>
+
+    <div id="competitions">
+        {% if user.is_superuser %}
+        <a href="{% url 'competitions:add_competition' %}" class="add-btn">
+            <span><i class="fa fa-plus-circle" aria-hidden="true"></i> Add New Competition</span>
+        </a>
+        {% endif %}
+        <div class="row">
+            {% for competition in competitions %}
+            <div class="col-lg-4 mb-4 d-flex align-items-stretch">
+                <div class="card card-bg">
+                    <img src="{{competition.image.url}}" alt="{{competition.title}}" enctype="multipart/form-data" class="card-img-top competition-image">
+                    <div class="card-body"> 
+                        <div class="competition-content">
+                            <h5 class="card-title">{{competition.title}}</h5>
+                            <p class="card-text text-color">{{competition.description|linebreaksbr}}</p>
+                            <p class="card-text text-color">Time: {{competition.time}}</p>
+                            <p class="card-text text-color">Venue: {{competition.venue}}</p>
+                            {% if user.is_superuser %}
+                            <a href="{% url 'competitions:update_competition' slug=competition.slug %}" class="up-btn">Update</a>
+                            <a href="{% url 'competitions:delete_competition' slug=competition.slug %}" class="del-btn">Delete</a>
+                            {% endif %}
+
+                            {% if user.is_superuser == False and competition.seats > 0 %}
+                            <p class="seats-count">Hurry Up! Only {{competition.seats}} seats are left</p>
+                            <a href="{% url 'razorpay' pk=competition.pk %}" class="register-btn">Register & Pay</a>
+                            {% endif %}
+                            
+                            {% if user.is_superuser == False and competition.seats == 0 %}
+                            <p class="seats-count">Registeration has closed!</p>
+                            {% endif %}
+                            
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

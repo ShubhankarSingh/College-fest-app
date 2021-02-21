@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+
+<style>
+    #title {
+        text-align: center;
+        font-size: 35px;
+        color:black;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-3">
+    </div>
+    <div class="col-lg-6">
+        <div class="container" style="width:600px;height:700px;margin-top:20px;padding:20px;opacity:0.8;border-radius:30px;">
+        <div class="p-3 mb-2 bg-primary text-white text-center">ADD A COMPETITION</div>
+           
+            <form method="POST" enctype="multipart/form-data" id="eventForm">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" class="btn btn-primary btn-large" value="Add">
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <!-- <img src="{% static 'images/4380.jpg' %}" alt="My image" style="width:700px;margin-top:100px"> -->
+    </div>
+   
+</div>
+
+<style>
+    body {
+        display: block;
+        position: relative;
+      }
+      
+      body::after {
+        content: "";
+        background-image: url('{% static "images/4380.jpg" %}');
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+        opacity: 0.4;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;   
+      }
+  
+    
+</style>
+
+{% endblock %}
